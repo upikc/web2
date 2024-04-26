@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3307
--- Время создания: Апр 18 2024 г., 23:38
+-- Время создания: Апр 26 2024 г., 22:38
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- База данных: `newBD`
+-- База данных: `webBd`
 --
 
 -- --------------------------------------------------------
@@ -38,8 +38,11 @@ CREATE TABLE `Ingredients` (
 
 INSERT INTO `Ingredients` (`Ingred_id`, `Ingred_name`) VALUES
 (3, 'лаваш'),
+(4, 'мука'),
 (1, 'мясо'),
-(2, 'овощи');
+(2, 'овощи'),
+(6, 'рис'),
+(5, 'хлеб');
 
 -- --------------------------------------------------------
 
@@ -60,7 +63,12 @@ CREATE TABLE `recipes` (
 
 INSERT INTO `recipes` (`rec_id`, `title`, `description`, `creactor_id`) VALUES
 (1, 'шаурма', '<img src=\"data/Foods.webp\">описание 1', 1),
-(2, 'шаурма_100%vegan', '<img src=\"data/Meatwrap.webp\">описание 2', 1);
+(2, 'шаурма_100%vegan', '<img src=\"data/Meatwrap.webp\">описание 2', 1),
+(3, 'хлеб', '<img src=\"data/bread.webp\">описание 2', 2),
+(4, 'вареные овощи', '<img src=\"data/Cooked_Vegetables.webp\">описание 2', 2),
+(5, 'Бутерброд', '<img src=\"data/Dustwich.webp\">описание 2', 1),
+(6, 'Рис', '<img src=\"data/Rise_Bowl.webp\">описание 2', 2),
+(7, 'Гохан', '<img src=\"data/Gohan.webp\">описание 2', 1);
 
 -- --------------------------------------------------------
 
@@ -82,7 +90,16 @@ INSERT INTO `recipe_Ingred` (`id`, `r_id`, `Ingred_id`) VALUES
 (1, 1, 3),
 (2, 2, 2),
 (3, 2, 3),
-(4, 1, 1);
+(4, 1, 1),
+(7, 3, 4),
+(8, 4, 2),
+(9, 5, 1),
+(10, 5, 2),
+(11, 5, 5),
+(12, 6, 6),
+(13, 7, 6),
+(14, 7, 1),
+(15, 7, 2);
 
 -- --------------------------------------------------------
 
@@ -104,7 +121,13 @@ INSERT INTO `recipe_tags` (`id`, `r_id`, `tag_id`) VALUES
 (1, 1, 2),
 (2, 2, 1),
 (3, 2, 2),
-(4, 1, 0);
+(4, 1, 0),
+(5, 3, 2),
+(6, 4, 1),
+(7, 5, 3),
+(8, 5, 0),
+(9, 6, 1),
+(10, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -124,6 +147,7 @@ CREATE TABLE `tags` (
 INSERT INTO `tags` (`tag_id`, `tag_name`) VALUES
 (2, 'в лаваше'),
 (1, 'вегетерианское'),
+(3, 'перекус'),
 (0, 'сочное');
 
 -- --------------------------------------------------------
@@ -145,7 +169,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `lastname`, `password`, `login`) VALUES
-(1, 'А', 'Ю', '1234', 'aaaa'),
+(1, 'А', 'Ю', '1111', '1111'),
 (2, 'upik2', 'upik2', '3210', '3210'),
 (3, '3123123', '312312', '12312', '123123');
 
@@ -204,25 +228,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `Ingredients`
 --
 ALTER TABLE `Ingredients`
-  MODIFY `Ingred_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Ingred_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT для таблицы `recipes`
 --
 ALTER TABLE `recipes`
-  MODIFY `rec_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `rec_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `recipe_Ingred`
 --
 ALTER TABLE `recipe_Ingred`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT для таблицы `recipe_tags`
 --
 ALTER TABLE `recipe_tags`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT для таблицы `tags`
