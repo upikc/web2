@@ -5,23 +5,28 @@ $recipes = mysqli_query($link, "SELECT rec_id , title , description, creactor_id
 JOIN users on recipes.creactor_id = users.user_id");
 $recipes_array = mysqli_fetch_array($recipes);
 
+/* ингридиенты */
+$ingredients = mysqli_query($link, "SELECT Ingred_name from Ingredients");
+$ingredients_array = mysqli_fetch_array($ingredients);
 ?>
-    <script>
-        
-        function search(){
-        var text = document.getElementById("search").value
-        const nodeList = document.querySelectorAll('div > div')
-        for (let i = 0; i < nodeList.length; i++) 
-        {
-            var text2 = nodeList[i].querySelector("#r_name").innerHTML.toLowerCase().replace("название: " , "")
-            console.log()
 
-            if (text2.includes(text.toLowerCase()))
-                nodeList[i].hidden = false
-            else
-                nodeList[i].hidden = true                
-        }}
-    </script>
+
+<script>
+    function search(){
+    var text = document.getElementById("search").value
+    const nodeList = document.querySelectorAll('div > div')
+    for (let i = 0; i < nodeList.length; i++) 
+    {
+        var text2 = nodeList[i].querySelector("#r_name").innerHTML.toLowerCase().replace("название: " , "")
+        console.log()
+        if (text2.includes(text.toLowerCase()))
+            nodeList[i].hidden = false
+        else
+            nodeList[i].hidden = true                
+    }}
+</script>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,9 +36,33 @@ $recipes_array = mysqli_fetch_array($recipes);
 </head>
 <body>
 
-<p><input type="text" id="search" placeholder="Поиск" oninput = "search()"></p>
+<!-- сортировка -->
+<p><input type="text" id="search" placeholder="Поиск" oninput = "search()">
+</p>
 
-<div>
+<select id="sort_d" >
+        <option value="По названию">По названию</option>
+        <option value="По ингридиентам">По ингридиентам</option>
+    </select>
+
+<select id="sort_ingredient" > <!-- дроп даун еингридиенты -->
+<option value="all">Все ингридиенты</option>
+    <?php $sql = "SELECT Ingred_name from Ingredients";
+        $result = $link->query($sql);
+        while($row = $result->fetch_assoc()) 
+            echo "<option value='$row[Ingred_name]'>$row[Ingred_name]</option>"
+    ?>
+</select><br>
+
+<!-- скрипт селектор сортировки -->
+<script>
+    document.getElementById('sort_d').addEventListener('change', function(event) {
+    console.log(event.target.value);
+    });
+</script>
+
+
+<div> <!-- рецепты -->
 <?php foreach($recipes as $recipe): $thisRID = $recipe["rec_id"] ?>
 
     <div style= "background-color: Thistle;">
