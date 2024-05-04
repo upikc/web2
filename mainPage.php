@@ -1,8 +1,11 @@
 <?php
 require "db.php";
 
-$recipes = mysqli_query($link, "SELECT rec_id , title , description, creactor_id , users.name as a_name from recipes
-JOIN users on recipes.creactor_id = users.user_id");
+if (!$_COOKIE["userData"])
+echo "<script> alert('Выдолжны зарегистрироваться');location.href='index.html';</script>";
+
+
+$recipes = mysqli_query($link, "SELECT rec_id , title , description, creactor_id , users.name as a_name from recipes JOIN users on recipes.creactor_id = users.user_id");
 $recipes_array = mysqli_fetch_array($recipes);
 
 /* ингридиенты */
@@ -36,6 +39,7 @@ $ingredients_array = mysqli_fetch_array($ingredients);
 </head>
 <body>
 
+<h2><a href="user_Page.html" >Профиль</a></h2>
 <!-- сортировка -->
 <p><input type="text" id="search" placeholder="Поиск" oninput = "search()">
 </p>
