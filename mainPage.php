@@ -16,19 +16,23 @@ $ingredients_array = mysqli_fetch_array($ingredients);
 
 <script>
     function search(){
-    var text = document.getElementById("search").value
+    var search_text = document.getElementById("search").value
+    var target_ingrid = document.getElementById('sort_ingredient').value
+
     const nodeList = document.querySelectorAll('div > div')
     for (let i = 0; i < nodeList.length; i++) 
     {
         var text2 = nodeList[i].querySelector("#r_name").innerHTML.toLowerCase().replace("название: " , "")
-        console.log()
-        if (text2.includes(text.toLowerCase()))
+        var text3 = nodeList[i].querySelector("#r_IngridsText").innerHTML.toLowerCase()
+        
+        var bool2 = text3.includes(target_ingrid.toLowerCase()) || target_ingrid.toLowerCase() == "all"
+                        
+        if (text2.includes(search_text.toLowerCase()) && bool2)
             nodeList[i].hidden = false
         else
             nodeList[i].hidden = true                
     }}
 </script>
-
 
 
 <!DOCTYPE html>
@@ -39,7 +43,7 @@ $ingredients_array = mysqli_fetch_array($ingredients);
 </head>
 <body>
 
-<h2><a href="user_Page.html" >Профиль</a></h2>
+<h2><a href="user_Page.php" >Профиль</a> <a href="index.html" >назад</a></h2>
 <!-- сортировка -->
 <p><input type="text" id="search" placeholder="Поиск" oninput = "search()">
 </p>
@@ -65,6 +69,12 @@ $ingredients_array = mysqli_fetch_array($ingredients);
     });
 </script>
 
+<script>
+    document.getElementById('sort_ingredient').addEventListener('change', function(event) {
+    console.log(event.target.value);
+    search();
+    });
+</script>
 
 <div> <!-- рецепты -->
 <?php foreach($recipes as $recipe): $thisRID = $recipe["rec_id"] ?>
@@ -82,7 +92,7 @@ $ingredients_array = mysqli_fetch_array($ingredients);
             
         $thisIngridsText = mysqli_fetch_row($thisIngrids);?>
 
-        <h2>Ингридиенты: <?=$thisIngridsText[0]?> </h2>
+        <h2 id = "r_IngridsText">Ингридиенты: <?=$thisIngridsText[0]?> </h2>
 
     </div>
 <?php endforeach;?>
