@@ -2,7 +2,7 @@
 require "db.php";
 
 if (!$_COOKIE["userData"])
-echo "<script> alert('Выдолжны зарегистрироваться');location.href='index.html';</script>";
+echo "<script> alert('Выдолжны зарегистрироваться');location.href='index.php';</script>";
 
 
 $id = $_COOKIE["userData"];

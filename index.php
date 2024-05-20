@@ -1,3 +1,8 @@
+<?php
+require "db.php";
+include "logOut.php"
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

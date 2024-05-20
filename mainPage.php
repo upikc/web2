@@ -2,7 +2,7 @@
 require "db.php";
 
 if (!$_COOKIE["userData"])
-echo "<script> alert('Выдолжны зарегистрироваться');location.href='index.html';</script>";
+echo "<script> alert('Выдолжны зарегистрироваться');location.href='index.php';</script>";
 
 
 $recipes = mysqli_query($link, "SELECT rec_id , title , description, creactor_id , users.name as a_name from recipes JOIN users on recipes.creactor_id = users.user_id");
@@ -43,7 +43,7 @@ $ingredients_array = mysqli_fetch_array($ingredients);
 </head>
 <body>
 
-<h2><a href="user_Page.php" >Профиль</a> <a href="index.html" >назад</a></h2>
+<h2><a href="user_Page.php" >Профиль</a> <a href="index.php" >Выйти</a></h2>
 <!-- сортировка -->
 <p><input type="text" id="search" placeholder="Поиск" oninput = "search()">
 </p>
@@ -83,7 +83,11 @@ $ingredients_array = mysqli_fetch_array($ingredients);
         <h2 id = "r_name" >Название: <?= $recipe["title"] ?></h2>
         <h2>Описание: <?= $recipe["description"] ?></h2>
         <h2>Автор: <?= $recipe["a_name"]?></h2>
-
+        
+        <!-- проверка для добавления кнопки -->
+        <?php if ($recipe["creactor_id"] == $_COOKIE["userData"]): ?>
+            <button type="button">отредактироваться</button>
+        <?php endif;?>
 
         <?php  $thisIngrids = mysqli_query($link, "SELECT GROUP_CONCAT(Ingredients.Ingred_name) FROM recipe_Ingred
             join Ingredients on recipe_Ingred.Ingred_id = Ingredients.Ingred_id

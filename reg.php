@@ -23,16 +23,7 @@ else
 { 
     $query = mysqli_query($link, "INSERT INTO users (name,lastname,password,login) VALUES ('$name','$password','$this_login','$lastname')");
 
-    echo "<script> alert('успешная регистрация');location.href='index.html';</script>";
-    
-
+    echo "<script> alert('успешная регистрация');location.href='index.php';</script>";
 }
-
-
-
-
-
-
-
 
 ?>
