@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3307
--- Время создания: Апр 26 2024 г., 22:38
+-- Время создания: Май 20 2024 г., 22:01
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -67,7 +67,7 @@ INSERT INTO `recipes` (`rec_id`, `title`, `description`, `creactor_id`) VALUES
 (3, 'хлеб', '<img src=\"data/bread.webp\">описание 2', 2),
 (4, 'вареные овощи', '<img src=\"data/Cooked_Vegetables.webp\">описание 2', 2),
 (5, 'Бутерброд', '<img src=\"data/Dustwich.webp\">описание 2', 1),
-(6, 'Рис', '<img src=\"data/Rise_Bowl.webp\">описание 2', 2),
+(6, 'Рис', '<img src=\"data/Rice_Bowl.webp\">описание 2', 2),
 (7, 'Гохан', '<img src=\"data/Gohan.webp\">описание 2', 1);
 
 -- --------------------------------------------------------
@@ -161,17 +161,20 @@ CREATE TABLE `users` (
   `name` varchar(20) NOT NULL,
   `lastname` varchar(20) NOT NULL,
   `password` varchar(9) NOT NULL,
-  `login` varchar(20) NOT NULL
+  `login` varchar(20) NOT NULL,
+  `enable` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`user_id`, `name`, `lastname`, `password`, `login`) VALUES
-(1, 'А', 'Ю', '1111', '1111'),
-(2, 'upik2', 'upik2', '3210', '3210'),
-(3, '3123123', '312312', '12312', '123123');
+INSERT INTO `users` (`user_id`, `name`, `lastname`, `password`, `login`, `enable`) VALUES
+(1, 'А', 'Ю', '1111', '1111', 1),
+(2, 'upik2', 'upik2', '3210', '3210', 1),
+(3, '3123123', '312312', '12312', '123123', 1),
+(13, 'g', 'g', 'g', 'g', 1),
+(14, 'test', 'test', 'test', 'test', 1);
 
 --
 -- Индексы сохранённых таблиц
@@ -258,7 +261,7 @@ ALTER TABLE `tags`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
