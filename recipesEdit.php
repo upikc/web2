@@ -1,4 +1,6 @@
 <?php
+include "api\loginCheck.php";
+
 $r_id = $_GET["id"];
 
 echo $r_id;

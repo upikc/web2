@@ -1,5 +1,6 @@
 <?php
 require "api\db.php";
+include "api\loginCheck.php";
 
 if (!$_COOKIE["userData"])
 echo "<script> alert('Выдолжны зарегистрироваться');location.href='index.php';</script>";
@@ -39,5 +40,9 @@ $UserThis = mysqli_fetch_array($query);
         <button type="submit">изменить данные</button>
     </form>
 
+    <form >
+        <button type="button" onclick='location.href = "api/userDisable.php?id=<?=$id?>"' >Заблокировать аккаунт</button>
+    </form>
+    
 </body>
 </html>

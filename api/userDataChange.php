@@ -12,7 +12,7 @@ $myId = (int)$_COOKIE['userData'];
 $query = mysqli_query($link, "SELECT login , password , name , lastname from users where user_id= $myId");
 $user = mysqli_fetch_array($query);
 
-if ($user["login"] ==($this_login && $user["password"] == $password) && $user["name"] == ($name) && $user["lastname"] == ($lastname))
+if ($user["login"] == $this_login && $user["password"] == $password && $user["name"] == ($name) && $user["lastname"] == ($lastname))
 {
     echo "<script> alert('данные эдентичны');</script>";
 }
@@ -24,8 +24,17 @@ else
 { 
     echo "<script> alert('успешная смена данных');</script>";
     mysqli_query($link, "UPDATE users SET name= '$name' , lastname= '$lastname' , login= '$this_login' , password= '$password' WHERE user_id = $myId");
+    
 }
 
 echo "<script>location.href='../user_page.php';</script>";
 
 ?>
+
+<!-- echo "<script>
+    let pass = prompt('введите прошлый пароль', '');
+        if (pass != $pass) {alert('пароли не совпадают'); location.href='../user_page.php'; }
+
+        else { alert('успешная смена данных'); }
+
+    </script>"; -->
