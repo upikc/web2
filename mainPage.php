@@ -5,7 +5,7 @@ if (!$_COOKIE["userData"])
 echo "<script> alert('Выдолжны зарегистрироваться');location.href='index.php';</script>";
 
 
-$recipes = mysqli_query($link, "SELECT rec_id , title , description, creactor_id , users.name as a_name from recipes JOIN users on recipes.creactor_id = users.user_id");
+$recipes = mysqli_query($link, "SELECT rec_id , image , title , description, creactor_id , users.name as a_name from recipes JOIN users on recipes.creactor_id = users.user_id");
 $recipes_array = mysqli_fetch_array($recipes);
 
 /* ингридиенты */
@@ -84,9 +84,11 @@ $ingredients_array = mysqli_fetch_array($ingredients);
         <h2>Описание: <?= $recipe["description"] ?></h2>
         <h2>Автор: <?= $recipe["a_name"]?></h2>
         
+        <img src="data/<?= $recipe["image"]?>">
+
         <!-- проверка для добавления кнопки -->
         <?php if ($recipe["creactor_id"] == $_COOKIE["userData"]): ?>
-            <button type="button">отредактироваться</button>
+            <button type="button" onclick='location.href = "recipesEdit.php?id=<?=$thisRID?>"'>отредактироваться</button>
         <?php endif;?>
 
         <?php  $thisIngrids = mysqli_query($link, "SELECT GROUP_CONCAT(Ingredients.Ingred_name) FROM recipe_Ingred

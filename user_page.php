@@ -9,9 +9,6 @@ $id = $_COOKIE["userData"];
 $query = mysqli_query($link, "SELECT name , lastname , password , login from users WHERE $id = user_id");
 $UserThis = mysqli_fetch_array($query);
 
-
-
-
 ?>
 
 

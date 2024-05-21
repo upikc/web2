@@ -11,12 +11,12 @@ $myId = (int)$_COOKIE['userData'];
 
 $query = mysqli_query($link, "SELECT login , password , name , lastname from users where user_id= $myId");
 $user = mysqli_fetch_array($query);
-if ($user["login"] == (trim($this_login)) && $user["password"] == (trim($password)) && $user["name"] == (trim($name)) && $user["lastname"] == (trim($lastname)))
+
+if ($user["login"] ==($this_login && $user["password"] == $password) && $user["name"] == ($name) && $user["lastname"] == ($lastname))
 {
     echo "<script> alert('данные эдентичны');</script>";
-
 }
-else if (empty(trim($this_login)) || empty(trim($password)) || empty(trim($name)) || empty(trim($lastname)))
+else if (empty($this_login) || empty($password) || empty($name) || empty($lastname))
 {
     echo "<script> alert('заполните все поля');</script>";
 }

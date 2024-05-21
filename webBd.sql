@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3307
--- Время создания: Май 20 2024 г., 22:01
+-- Время создания: Май 21 2024 г., 14:03
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -54,21 +54,22 @@ CREATE TABLE `recipes` (
   `rec_id` int NOT NULL,
   `title` varchar(50) NOT NULL,
   `description` varchar(500) NOT NULL,
-  `creactor_id` int NOT NULL
+  `creactor_id` int NOT NULL,
+  `image` varchar(45) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Дамп данных таблицы `recipes`
 --
 
-INSERT INTO `recipes` (`rec_id`, `title`, `description`, `creactor_id`) VALUES
-(1, 'шаурма', '<img src=\"data/Foods.webp\">описание 1', 1),
-(2, 'шаурма_100%vegan', '<img src=\"data/Meatwrap.webp\">описание 2', 1),
-(3, 'хлеб', '<img src=\"data/bread.webp\">описание 2', 2),
-(4, 'вареные овощи', '<img src=\"data/Cooked_Vegetables.webp\">описание 2', 2),
-(5, 'Бутерброд', '<img src=\"data/Dustwich.webp\">описание 2', 1),
-(6, 'Рис', '<img src=\"data/Rice_Bowl.webp\">описание 2', 2),
-(7, 'Гохан', '<img src=\"data/Gohan.webp\">описание 2', 1);
+INSERT INTO `recipes` (`rec_id`, `title`, `description`, `creactor_id`, `image`) VALUES
+(1, 'шаурма', 'описание', 1, 'Foods.webp'),
+(2, 'шаурма_100%vegan', 'описание', 1, 'Meatwrap.webp'),
+(3, 'хлеб', 'описание', 2, 'bread.webp'),
+(4, 'вареные овощи', 'описание', 2, 'Cooked_Vegetables.webp'),
+(5, 'Бутерброд', 'описание', 1, 'Dustwich.webp'),
+(6, 'Рис', 'описание', 2, 'Rice_Bowl.webp'),
+(7, 'Гохан', 'описание', 1, 'Gohan.webp');
 
 -- --------------------------------------------------------
 
@@ -170,7 +171,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `lastname`, `password`, `login`, `enable`) VALUES
-(1, 'А', 'Ю', '1111', '1111', 1),
+(1, 'bebrick', 'test', '1111', '1111', 1),
 (2, 'upik2', 'upik2', '3210', '3210', 1),
 (3, '3123123', '312312', '12312', '123123', 1),
 (13, 'g', 'g', 'g', 'g', 1),
