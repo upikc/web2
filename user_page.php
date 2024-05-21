@@ -6,8 +6,11 @@ echo "<script> alert('Выдолжны зарегистрироваться');lo
 
 
 $id = $_COOKIE["userData"];
-$User = mysqli_query($link, "SELECT name from users WHERE $id = user_id");
-$UserThis = mysqli_fetch_array($User);
+$query = mysqli_query($link, "SELECT name , lastname , password , login from users WHERE $id = user_id");
+$UserThis = mysqli_fetch_array($query);
+
+
+
 
 ?>
 
@@ -17,7 +20,7 @@ $UserThis = mysqli_fetch_array($User);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>userPage</title>
+    <title>профиль пользователя <?=$UserThis["name"]?></title>
 </head>
 <body>
     
@@ -30,9 +33,11 @@ $UserThis = mysqli_fetch_array($User);
     </script>
 -->
 
-    <form id="userDataChangeForm" action="auth.php" method="POST">
-        <p><input type="text" name="login" placeholder="Логин" /></p>
-        <p><input type="password" name="pass" placeholder="Пароль" /></p>
+    <form id="userDataChangeForm" action="api/userDataChange.php" method="POST">
+        <p><input type="text" name="login" placeholder="Логин" value = <?=$UserThis["login"]?> ></p>
+        <p><input type="password" name="pass" placeholder="Пароль" value = <?=$UserThis["password"]?> /></p>
+        <p><input type="text" name="name" placeholder="Имя" value = <?=$UserThis["name"]?>  ></p>
+        <p><input type="text" name="lastName" placeholder="Фамилия" value = <?=$UserThis["lastname"]?> /></p>
 
         <button type="submit">изменить данные</button>
     </form>
