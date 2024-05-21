@@ -1,6 +1,6 @@
 <?php
-require "db.php";
-include "logOut.php"
+require "api\db.php";
+include "api\logOut.php"
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ include "logOut.php"
     <title>вход</title>
 </head>
 <body>
-    <form id="myForm" action="auth.php" method="POST">
+    <form id="myForm" action="api\auth.php" method="POST">
         <p><input type="text" name="login" placeholder="Логин" /></p>
         <p><input type="password" name="pass" placeholder="Пароль" /></p>
 

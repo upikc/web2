@@ -13,7 +13,7 @@ if (!empty(trim($login)) && !empty(trim($password)))
         // проверка на enable
         if ($arrayOF_id_enable["enable"] == 0)
         {
-            echo "<script> alert('вашш аккаунт Disable!');location.href='index.php';</script>";
+            echo "<script> alert('вашш аккаунт Disable!');location.href='../index.php';</script>";
             return;
         }
 
@@ -21,14 +21,14 @@ if (!empty(trim($login)) && !empty(trim($password)))
         {
             setcookie("userData", $userId, time() + 3600, "/");
 
-            echo "<script> alert('Добро пожаловать');location.href='mainPage.php'</script>";
+            echo "<script> alert('Добро пожаловать');location.href='../mainPage.php'</script>";
         } 
         else 
-        {   echo "<script> alert('не верные данные');location.href='index.php';</script>";}
+        {   echo "<script> alert('не верные данные');location.href='../index.php';</script>";}
     } 
 else 
     {
-        echo "<script> alert('Заполните все поля');location.href='index.php';</script>";
+        echo "<script> alert('Заполните все поля');location.href='../index.php';</script>";
 
     }
 

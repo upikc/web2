@@ -1,5 +1,5 @@
 <?php
-require "db.php";
+require "api\db.php";
 
 if (!$_COOKIE["userData"])
 echo "<script> alert('Выдолжны зарегистрироваться');location.href='index.php';</script>";
@@ -8,6 +8,7 @@ echo "<script> alert('Выдолжны зарегистрироваться');lo
 $id = $_COOKIE["userData"];
 $User = mysqli_query($link, "SELECT name from users WHERE $id = user_id");
 $UserThis = mysqli_fetch_array($User);
+
 ?>
 
 
@@ -21,13 +22,13 @@ $UserThis = mysqli_fetch_array($User);
 <body>
     
     <h2><a href="mainPage.php" >Назад</a></h2>
-    
+<!--
     <h id="text">$User</h> 
 
     <script>
         document.getElementById('text').textContent = 'end';
     </script>
-
+-->
 
     <form id="userDataChangeForm" action="auth.php" method="POST">
         <p><input type="text" name="login" placeholder="Логин" /></p>
