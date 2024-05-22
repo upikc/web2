@@ -1,0 +1,19 @@
+body{ width: 100%}
+nav {
+    display: block;
+    margin: 0 0 20px;
+  }
+ul {
+    padding: 1em 0;
+    background: #ECDAD6;
+  }
+a#BarL {
+    text-decoration: none;
+    transition: .5s linear;
+    font-size: large;
+}
+
+li {
+    
+  display: inline;
+}

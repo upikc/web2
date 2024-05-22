@@ -38,10 +38,17 @@ $ingredients_array = mysqli_fetch_array($ingredients);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Nbar.css" />
 </head>
 <body>
+<nav>
+  <ul>
+    <li><a id = "BarL" href="user_Page.php">Профиль</a></li>
+    <li><a id = "BarL" href="mainPage.php">Основа</a></li>
+    <li><a id = "BarL" href="index.php" >Выйти</a></li>
+  </ul>
+</nav>
 
-<h2><a href="user_Page.php" >Профиль</a> <a href="index.php" >Выйти</a></h2>
 <!-- сортировка -->
 <p><input type="text" id="search" placeholder="Поиск" oninput = "search()">
 </p>

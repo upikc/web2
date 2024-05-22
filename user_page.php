@@ -12,11 +12,16 @@ $UserThis = mysqli_fetch_array($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>профиль пользователя <?=$UserThis["name"]?></title>
+    <link rel="stylesheet" href="Nbar.css" />
 </head>
 <body>
-    
-    <h2><a href="mainPage.php" >Назад</a></h2>
+<nav>
+  <ul>
+    <li><a id = "BarL" href="user_Page.php">Профиль</a></li>
+    <li><a id = "BarL" href="mainPage.php">Основа</a></li>
+    <li><a id = "BarL" href="index.php" >Выйти</a></li>
+  </ul>
+</nav>
 <!--
     <h id="text">$User</h> 
     <script>
