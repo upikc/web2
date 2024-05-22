@@ -1,8 +1,6 @@
 <?php
 require "api\db.php";
-
-if (!$_COOKIE["userData"])
-echo "<script> alert('Выдолжны зарегистрироваться');location.href='index.php';</script>";
+include "api\loginCheck.php";
 
 
 $recipes = mysqli_query($link, "SELECT rec_id , image , title , description, creactor_id , users.name as a_name from recipes JOIN users on recipes.creactor_id = users.user_id");

@@ -6,13 +6,18 @@ $this_login = trim($_POST["login"]);
 $password = trim($_POST["pass"]);
 $name = trim($_POST["name"]);
 $lastname = trim($_POST["lastName"]);
+$oldPassword = trim($_POST["oldPassword"]);
 
 $myId = (int)$_COOKIE['userData'];
 
 $query = mysqli_query($link, "SELECT login , password , name , lastname from users where user_id= $myId");
 $user = mysqli_fetch_array($query);
 
-if ($user["login"] == $this_login && $user["password"] == $password && $user["name"] == ($name) && $user["lastname"] == ($lastname))
+if ($oldPassword != $user["password"])
+{
+    echo "<script> alert('Пароль не верный');</script>";
+}
+else if ($user["login"] == $this_login && $user["password"] == $password && $user["name"] == ($name) && $user["lastname"] == ($lastname))
 {
     echo "<script> alert('данные эдентичны');</script>";
 }
