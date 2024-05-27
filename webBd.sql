@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3307
--- Время создания: Май 21 2024 г., 14:03
+-- Время создания: Май 27 2024 г., 20:51
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- База данных: `webBd`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Структура таблицы `faves`
+--
+
+CREATE TABLE `faves` (
+  `faves_id` int NOT NULL,
+  `user` int NOT NULL,
+  `recipe` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Дамп данных таблицы `faves`
+--
+
+INSERT INTO `faves` (`faves_id`, `user`, `recipe`) VALUES
+(1, 1, 6),
+(2, 1, 2),
+(3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -171,7 +192,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `lastname`, `password`, `login`, `enable`) VALUES
-(1, 'bebrick', 'test', '1111', '1111', 1),
+(1, 'U', 'U', '1111', '1111', 1),
 (2, 'upik2', 'upik2', '3210', '3210', 1),
 (3, '3123123', '312312', '12312', '123123', 1),
 (13, 'g', 'g', 'g', 'g', 1),
@@ -180,6 +201,14 @@ INSERT INTO `users` (`user_id`, `name`, `lastname`, `password`, `login`, `enable
 --
 -- Индексы сохранённых таблиц
 --
+
+--
+-- Индексы таблицы `faves`
+--
+ALTER TABLE `faves`
+  ADD PRIMARY KEY (`faves_id`),
+  ADD KEY `user_idx` (`user`),
+  ADD KEY `recipe_idx` (`recipe`);
 
 --
 -- Индексы таблицы `Ingredients`
@@ -229,6 +258,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT для таблицы `faves`
+--
+ALTER TABLE `faves`
+  MODIFY `faves_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT для таблицы `Ingredients`
 --
 ALTER TABLE `Ingredients`
@@ -267,6 +302,13 @@ ALTER TABLE `users`
 --
 -- Ограничения внешнего ключа сохраненных таблиц
 --
+
+--
+-- Ограничения внешнего ключа таблицы `faves`
+--
+ALTER TABLE `faves`
+  ADD CONSTRAINT `recipe` FOREIGN KEY (`recipe`) REFERENCES `recipes` (`rec_id`),
+  ADD CONSTRAINT `user` FOREIGN KEY (`user`) REFERENCES `users` (`user_id`);
 
 --
 -- Ограничения внешнего ключа таблицы `recipes`

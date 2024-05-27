@@ -12,6 +12,7 @@ $UserThis = mysqli_fetch_array($query);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>профиль пользователя <?=$UserThis["name"]?></title>
     <link rel="stylesheet" href="Nbar.css" />
 </head>
 <body>

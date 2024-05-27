@@ -9,6 +9,13 @@ $recipes_array = mysqli_fetch_array($recipes);
 /* ингридиенты */
 $ingredients = mysqli_query($link, "SELECT Ingred_name from Ingredients");
 $ingredients_array = mysqli_fetch_array($ingredients);
+
+$ThisUserId = $_COOKIE["userData"];
+/* список fave id */
+$aa = mysqli_query($link, "SELECT recipe from faves where user = 1");
+$fave_id_array = mysqli_fetch_array($aa);
+
+
 ?>
 
 
@@ -81,30 +88,38 @@ $ingredients_array = mysqli_fetch_array($ingredients);
     });
 </script>
 
+
+
 <div> <!-- рецепты -->
-<?php foreach($recipes as $recipe): $thisRID = $recipe["rec_id"] ?>
+<?php foreach($recipes as $recipe): $thisRID = $recipe["rec_id"]; print(count($fave_id_array)) ?>
 
     <div style= "background-color: Thistle;">
-        <h2 id = "r_name" >Название: <?= $recipe["title"] ?></h2>
-        <h2>Описание: <?= $recipe["description"] ?></h2>
-        <h2>Автор: <?= $recipe["a_name"]?></h2>
-        
-        <img src="data/<?= $recipe["image"]?>">
+    
+        <?php if (in_array($recipe["rec_id"] , $fave_id_array)):?>
+            <img  width="44" height="44" style="float:left;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Full_Star_Yellow.svg/langru-1024px-Full_Star_Yellow.svg.png">
+        <?php else: ?>
+            <img  width="44" height="44" style="float:left;" src="data\pngwing.com.png" >
+        <?php endif;?>
+
+        <h2 id = "r_name" >Название: <?= $recipe["title"] ?> || Описание: <?= $recipe["description"] ?></h2>
+        <h2>Автор: <?= $recipe["a_name"]?>   
 
         <!-- проверка для добавления кнопки -->
         <?php if ($recipe["creactor_id"] == $_COOKIE["userData"]): ?>
             <button type="button" onclick='location.href = "recipesEdit.php?id=<?=$thisRID?>"'>отредактироваться</button>
-        <?php endif;?>
+        <?php endif;?></h2>
+        
+        <img style="float:left;" src="data/<?= $recipe["image"]?>" height="90">
 
         <?php  $thisIngrids = mysqli_query($link, "SELECT GROUP_CONCAT(Ingredients.Ingred_name) FROM recipe_Ingred
             join Ingredients on recipe_Ingred.Ingred_id = Ingredients.Ingred_id
             where recipe_Ingred.r_id = $thisRID
             ");
             
-        $thisIngridsText = mysqli_fetch_row($thisIngrids);?>
-
+        $thisIngridsText = mysqli_fetch_row($thisIngrids);?> <br>
+        <br> <br>
         <h2 id = "r_IngridsText">Ингридиенты: <?=$thisIngridsText[0]?> </h2>
-
+        
     </div>
 <?php endforeach;?>
 
