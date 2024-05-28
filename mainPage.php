@@ -12,32 +12,16 @@ $ingredients_array = mysqli_fetch_array($ingredients);
 
 $ThisUserId = $_COOKIE["userData"];
 /* список fave id */
-$aa = mysqli_query($link, "SELECT recipe from faves where user = 1");
-$fave_id_array = mysqli_fetch_array($aa);
-
-
+$aa = mysqli_query($link, "SELECT recipe from faves where user = $ThisUserId");
+$fave_id_array_sql = mysqli_fetch_all($aa);
+$fave_id_array = [];
+foreach ($fave_id_array_sql as $value)
+{
+    array_push($fave_id_array,$value[0]);
+}
 ?>
 
 
-<script>
-    function search(){
-    var search_text = document.getElementById("search").value
-    var target_ingrid = document.getElementById('sort_ingredient').value
-
-    const nodeList = document.querySelectorAll('div > div')
-    for (let i = 0; i < nodeList.length; i++) 
-    {
-        var text2 = nodeList[i].querySelector("#r_name").innerHTML.toLowerCase().replace("название: " , "")
-        var text3 = nodeList[i].querySelector("#r_IngridsText").innerHTML.toLowerCase()
-        
-        var bool2 = text3.includes(target_ingrid.toLowerCase()) || target_ingrid.toLowerCase() == "all"
-                        
-        if (text2.includes(search_text.toLowerCase()) && bool2)
-            nodeList[i].hidden = false
-        else
-            nodeList[i].hidden = true                
-    }}
-</script>
 
 
 <!DOCTYPE html>
@@ -91,14 +75,14 @@ $fave_id_array = mysqli_fetch_array($aa);
 
 
 <div> <!-- рецепты -->
-<?php foreach($recipes as $recipe): $thisRID = $recipe["rec_id"]; print(count($fave_id_array)) ?>
+<?php foreach($recipes as $recipe): $thisRID = $recipe["rec_id"]; ?>
 
     <div style= "background-color: Thistle;">
     
         <?php if (in_array($recipe["rec_id"] , $fave_id_array)):?>
-            <img  width="44" height="44" style="float:left;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Full_Star_Yellow.svg/langru-1024px-Full_Star_Yellow.svg.png">
+            <img  width="44" height="44" onclick='likeRecipe(<?= $recipe["rec_id"]?> , <?= $ThisUserId?>)' style="float:left;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Full_Star_Yellow.svg/langru-1024px-Full_Star_Yellow.svg.png">
         <?php else: ?>
-            <img  width="44" height="44" style="float:left;" src="data\pngwing.com.png" >
+            <img  width="44" height="44" onclick='likeRecipe(<?= $recipe["rec_id"]?> , <?= $ThisUserId?>)' style="float:left;" src="data\pngwing.com.png" >
         <?php endif;?>
 
         <h2 id = "r_name" >Название: <?= $recipe["title"] ?> || Описание: <?= $recipe["description"] ?></h2>
@@ -126,3 +110,28 @@ $fave_id_array = mysqli_fetch_array($aa);
 </div>
 </body>
 </html>
+
+<script>
+
+    function search(){
+    var search_text = document.getElementById("search").value
+    var target_ingrid = document.getElementById('sort_ingredient').value
+
+    const nodeList = document.querySelectorAll('div > div')
+    for (let i = 0; i < nodeList.length; i++) 
+    {
+        var text2 = nodeList[i].querySelector("#r_name").innerHTML.toLowerCase().replace("название: " , "")
+        var text3 = nodeList[i].querySelector("#r_IngridsText").innerHTML.toLowerCase()
+        
+        var bool2 = text3.includes(target_ingrid.toLowerCase()) || target_ingrid.toLowerCase() == "all"
+                        
+        if (text2.includes(search_text.toLowerCase()) && bool2)
+            nodeList[i].hidden = false
+        else
+            nodeList[i].hidden = true                
+    }}
+
+    function likeRecipe(id , uid) {
+        fetch(`api/likeRecipe.php?id=${id}&uid=${uid}`);
+    }
+</script>

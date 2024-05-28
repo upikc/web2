@@ -44,6 +44,36 @@ $UserThis = mysqli_fetch_array($query);
         <button type="button" onclick="checkPasswordForDisable();" >Заблокировать аккаунт</button>
     </form>
 
+
+
+    <!-- РЕЦЕПТЫ -->
+    <?php $recipes = mysqli_query($link, "SELECT rec_id , image , title , description, creactor_id , users.name as a_name , faves.user from recipes JOIN users on recipes.creactor_id = users.user_id JOIN faves on recipes.rec_id = faves.recipe where faves.user = '1'");
+    foreach($recipes as $recipe): $thisRID = $recipe["rec_id"]; ?>
+
+    <div style= "background-color: Thistle;">
+    
+        <h2 id = "r_name" >Название: <?= $recipe["title"] ?> || Описание: <?= $recipe["description"] ?></h2>
+        <h2>Автор: <?= $recipe["a_name"]?>   
+
+        <!-- проверка для добавления кнопки -->
+        <?php if ($recipe["creactor_id"] == $_COOKIE["userData"]): ?>
+            <button type="button" onclick='location.href = "recipesEdit.php?id=<?=$thisRID?>"'>отредактироваться</button>
+        <?php endif;?></h2>
+        
+        <img style="float:left;" src="data/<?= $recipe["image"]?>" height="90">
+
+        <?php  $thisIngrids = mysqli_query($link, "SELECT GROUP_CONCAT(Ingredients.Ingred_name) FROM recipe_Ingred
+            join Ingredients on recipe_Ingred.Ingred_id = Ingredients.Ingred_id
+            where recipe_Ingred.r_id = $thisRID
+            ");
+            
+        $thisIngridsText = mysqli_fetch_row($thisIngrids);?> <br>
+        <br> <br>
+        <h2 id = "r_IngridsText">Ингридиенты: <?=$thisIngridsText[0]?> </h2>
+        
+    </div>
+<?php endforeach;?>
+
     <script>
         function checkPasswordForDisable() {
             let pass = prompt('введите пароль');
