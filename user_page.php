@@ -3,7 +3,7 @@ require "api\db.php";
 include "api\loginCheck.php";
 
 $id = $_COOKIE["userData"];
-$query = mysqli_query($link, "SELECT name , lastname , password , login from users WHERE $id = user_id");
+$query = mysqli_query($link, "SELECT name , lastname , password , login from users WHERE user_id = $id");
 $UserThis = mysqli_fetch_array($query);
 ?>
 
@@ -20,6 +20,7 @@ $UserThis = mysqli_fetch_array($query);
   <ul>
     <li><a id = "BarL" href="user_Page.php">Профиль</a></li>
     <li><a id = "BarL" href="mainPage.php">Основа</a></li>
+    <li><a id = "BarL" href="recipesEdit.php" >Новый рецепт</a></li>
     <li><a id = "BarL" href="index.php" >Выйти</a></li>
   </ul>
 </nav>

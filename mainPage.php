@@ -36,6 +36,7 @@ foreach ($fave_id_array_sql as $value)
   <ul>
     <li><a id = "BarL" href="user_Page.php">Профиль</a></li>
     <li><a id = "BarL" href="mainPage.php">Основа</a></li>
+    <li><a id = "BarL" href="recipesEdit.php" >Новый рецепт</a></li>
     <li><a id = "BarL" href="index.php" >Выйти</a></li>
   </ul>
 </nav>
