@@ -5,6 +5,9 @@ include "api\loginCheck.php";
 $id = $_COOKIE["userData"];
 $query = mysqli_query($link, "SELECT name , lastname , password , login from users WHERE user_id = $id");
 $UserThis = mysqli_fetch_array($query);
+
+
+$isAdmin =  mysqli_fetch_array(mysqli_query($link, "SELECT Admin from users where user_id = $id"))[0];
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +25,9 @@ $UserThis = mysqli_fetch_array($query);
     <li><a id = "BarL" href="mainPage.php">Основа</a></li>
     <li><a id = "BarL" href="recipesEdit.php" >Новый рецепт</a></li>
     <li><a id = "BarL" href="index.php" >Выйти</a></li>
+    <?php if ($isAdmin == 1): ?>
+        <li><a id="BarL" href="Apanel.php">ADMIN</a></li>
+    <?php endif; ?>
   </ul>
 </nav>
 <!--
@@ -67,10 +73,17 @@ $UserThis = mysqli_fetch_array($query);
             join Ingredients on recipe_Ingred.Ingred_id = Ingredients.Ingred_id
             where recipe_Ingred.r_id = $thisRID
             ");
+
+            $thistTags = mysqli_query($link, "SELECT GROUP_CONCAT(tags.tag_name) FROM recipe_tags
+            join tags on recipe_tags.tag_id = tags.tag_id
+            where recipe_tags.r_id = $thisRID
+            ");
             
-        $thisIngridsText = mysqli_fetch_row($thisIngrids);?> <br>
-        <br> <br>
-        <h2 id = "r_IngridsText">Ингридиенты: <?=$thisIngridsText[0]?> </h2>
+        $thisIngridsText = mysqli_fetch_row($thisIngrids); 
+        $thisTagsText = mysqli_fetch_row($thistTags);?> <br>
+        <br> <br> <br>
+        <h2 id = "r_IngridsText">Ингридиенты: <?=$thisIngridsText[0]?>
+        <h2 id = "r_TagText">Теги: <?=$thisTagsText[0]?> </h2>
         
     </div>
 <?php endforeach;?>

@@ -19,6 +19,8 @@ foreach ($fave_id_array_sql as $value)
 {
     array_push($fave_id_array,$value[0]);
 }
+
+$isAdmin =  mysqli_fetch_array(mysqli_query($link, "SELECT Admin from users where user_id = $ThisUserId"))[0];
 ?>
 
 
@@ -38,6 +40,10 @@ foreach ($fave_id_array_sql as $value)
     <li><a id = "BarL" href="mainPage.php">Основа</a></li>
     <li><a id = "BarL" href="recipesEdit.php" >Новый рецепт</a></li>
     <li><a id = "BarL" href="index.php" >Выйти</a></li>
+
+    <?php if ($isAdmin == 1): ?>
+        <li><a id="BarL" href="Apanel.php">ADMIN</a></li>
+    <?php endif; ?>
   </ul>
 </nav>
 
@@ -46,8 +52,12 @@ foreach ($fave_id_array_sql as $value)
 </p>
 
 <select id="sort_d" >
-        <option value="По названию">По названию</option>
-        <option value="По ингридиентам">По ингридиентам</option>
+        <option value="Все теги">Все теги</option>
+        <?php $sql = "SELECT tag_name from tags";
+        $result = $link->query($sql);
+        while($row = $result->fetch_assoc()) 
+            echo "<option value='$row[tag_name]'>$row[tag_name]</option>"
+    ?>
     </select>
 
 <select id="sort_ingredient" > <!-- дроп даун еингридиенты -->
@@ -63,6 +73,7 @@ foreach ($fave_id_array_sql as $value)
 <script>
     document.getElementById('sort_d').addEventListener('change', function(event) {
     console.log(event.target.value);
+    search();
     });
 </script>
 
@@ -80,11 +91,9 @@ foreach ($fave_id_array_sql as $value)
 
     <div style= "background-color: Thistle;">
     
-        <?php if (in_array($recipe["rec_id"] , $fave_id_array)):?>
-            <img  width="44" height="44" onclick='likeRecipe(<?= $recipe["rec_id"]?> , <?= $ThisUserId?>)' style="float:left;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Full_Star_Yellow.svg/langru-1024px-Full_Star_Yellow.svg.png">
-        <?php else: ?>
-            <img  width="44" height="44" onclick='likeRecipe(<?= $recipe["rec_id"]?> , <?= $ThisUserId?>)' style="float:left;" src="data\pngwing.com.png" >
-        <?php endif;?>
+
+        <img id="recipe-FavImg-<?= $recipe["rec_id"]?>" width="44" height="44" onclick='likeRecipe(<?= $recipe["rec_id"]?> , <?= $ThisUserId?> , this.id    )' style="float:left;" src="<?php echo ((in_array($recipe["rec_id"] , $fave_id_array)) ?'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Full_Star_Yellow.svg/langru-1024px-Full_Star_Yellow.svg.png' : 'data\pngwing.com.png'); ?>">
+
 
         <h2 id = "r_name" >Название: <?= $recipe["title"] ?> || Описание: <?= $recipe["description"] ?></h2>
         <h2>Автор: <?= $recipe["a_name"]?>   
@@ -100,10 +109,17 @@ foreach ($fave_id_array_sql as $value)
             join Ingredients on recipe_Ingred.Ingred_id = Ingredients.Ingred_id
             where recipe_Ingred.r_id = $thisRID
             ");
+
+            $thistTags = mysqli_query($link, "SELECT GROUP_CONCAT(tags.tag_name) FROM recipe_tags
+            join tags on recipe_tags.tag_id = tags.tag_id
+            where recipe_tags.r_id = $thisRID
+            ");
             
-        $thisIngridsText = mysqli_fetch_row($thisIngrids);?> <br>
-        <br> <br>
-        <h2 id = "r_IngridsText">Ингридиенты: <?=$thisIngridsText[0]?> </h2>
+        $thisIngridsText = mysqli_fetch_row($thisIngrids); 
+        $thisTagsText = mysqli_fetch_row($thistTags);?> <br>
+        <br> <br> <br>
+        <h2 id = "r_IngridsText">Ингридиенты: <?=$thisIngridsText[0]?>
+        <h2 id = "r_TagText">Теги: <?=$thisTagsText[0]?> </h2>
         
     </div>
 <?php endforeach;?>
@@ -123,16 +139,29 @@ foreach ($fave_id_array_sql as $value)
     {
         var text2 = nodeList[i].querySelector("#r_name").innerHTML.toLowerCase().replace("название: " , "")
         var text3 = nodeList[i].querySelector("#r_IngridsText").innerHTML.toLowerCase()
+        var text4 = nodeList[i].querySelector("#r_TagText").innerHTML.toLowerCase().replace("теги: " , "") //теги
         
         var bool2 = text3.includes(target_ingrid.toLowerCase()) || target_ingrid.toLowerCase() == "all"
-                        
-        if (text2.includes(search_text.toLowerCase()) && bool2)
+        var bool1 = sort_d.value == "Все теги" || text4.includes(sort_d.value.toLowerCase())
+
+        if (text2.includes(search_text.toLowerCase()) && bool2 && bool1)
             nodeList[i].hidden = false
         else
-            nodeList[i].hidden = true                
+            nodeList[i].hidden = true
+
+
     }}
 
-    function likeRecipe(id , uid) {
+    function likeRecipe(id , uid , favImage ) {
+        
+        var img = document.getElementById(favImage);
+
+        if (img.src.indexOf('Full_Star_Yellow') !== -1) {
+            img.src = 'data/pngwing.com.png';}
+        else {
+          img.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Full_Star_Yellow.svg/langru-1024px-Full_Star_Yellow.svg.png';
+        }
+
         fetch(`api/likeRecipe.php?id=${id}&uid=${uid}`);
     }
 </script>
