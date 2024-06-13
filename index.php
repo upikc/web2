@@ -19,6 +19,9 @@ include "api\logOut.php"
         <button type="submit">войти</button>
         <button onclick="window.location.href='regForm.html';" type="button">зарегистироваться</button>
     </form>
+    <br>
+    
+    <button onclick="window.location.href='passwordDrop.php';" type="button">сброс пароля</button>
 </body>
 
 </html>
