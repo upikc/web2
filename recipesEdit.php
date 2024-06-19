@@ -2,10 +2,13 @@
 include "api\db.php";
 include "api\loginCheck.php";
 
+$id = $_COOKIE["userData"];
+$query = mysqli_query($link, "SELECT name , lastname , password , login from users WHERE user_id = $id");
+$UserThis = mysqli_fetch_array($query);
+
 $r_id = $_GET["id"];
 if ($r_id){
-$query = mysqli_query($link, "SELECT image , title , description from recipes where rec_id = $r_id");
-$thisR = mysqli_fetch_array($query);}
+$thisR = mysqli_fetch_array(mysqli_query($link, "SELECT image , title , description from recipes where rec_id = $r_id"));}
 
 
 $ThisUserId = $_COOKIE["userData"];
@@ -39,6 +42,11 @@ $isAdmin =  mysqli_fetch_array(mysqli_query($link, "SELECT Admin from users wher
 
     <input hidden="true" name="ress_id" value=<?= strval($r_id)?>>
 
+    <?php if($r_id):?> 
+      <button type="button" onclick="checkPasswordForDelete();">УДАЛИТЬ</button>
+    <?php endif;?>
+    
+
     <p><input type="text" name="name_inp" placeholder="Название" value = <?=$thisR["title"]?> ></p>
     <p><input type="text" name="descr_inp" placeholder="Описание" value = <?=$thisR["description"]?>></p>
     <input type="file" name="myFile" accept="image/*">
@@ -60,3 +68,13 @@ $isAdmin =  mysqli_fetch_array(mysqli_query($link, "SELECT Admin from users wher
     
 </body>
 </html>
+
+<script>
+  function checkPasswordForDelete() {
+      let pass = prompt('введите пароль');
+      if (pass == <?=$UserThis["password"]?>)
+          location.href = "api/deleteRecipe.php?id=<?=$r_id?>"
+      else
+      alert('пароли не совпали');
+  }
+</script>

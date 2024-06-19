@@ -11,6 +11,7 @@
         <p><input type="text" name="mail" placeholder="Почта" /></p>
 
         <button type="submit">сбросить</button>
+        <button onclick="window.location.href='index.php';" type="button">авторизация</button>
     </form>
 </body>
 </html>

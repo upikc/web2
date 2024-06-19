@@ -11,15 +11,17 @@ if (!empty(trim($login)) && !empty(trim($sendMail)))
         $userId = $arrayOF_id_enable["user_id"];
         
         
-        if ($arrayOF_id_enable["enable"] == 0 && mysqli_num_rows($query) > 0)
+        if ($arrayOF_id_enable["enable"] == 1 && mysqli_num_rows($query) > 0) //сброс пароля
         {
-            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
             $newPassword = '';
             for ($i = 0; $i < 10; $i++) {
                 $newPassword .= $characters[mt_rand(0, strlen($characters) - 1)];
             }
 
-            $query = mysqli_query($link, "UPDATE users SET password = '$newPassword' WHERE where login='$login' and mail ='$sendMail'");
+
+            mysqli_query($link, "UPDATE users SET password = '$newPassword' WHERE user_id = '$userId'");
     
             $to = $sendMail;
             $subject = "Новый пароль";
@@ -34,7 +36,7 @@ if (!empty(trim($login)) && !empty(trim($sendMail)))
         }
         if (mysqli_num_rows($query) > 0)
         {
-            echo "<script> alert('Ваш аккаунт не заблокирован');location.href='../passwordDrop.php'</script>";
+            echo "<script> alert('Ваш аккаунт заблокирован');location.href='../passwordDrop.php'</script>";
         }
         else 
         {   echo "<script> alert('не верные данные');location.href='../passwordDrop.php';</script>";}

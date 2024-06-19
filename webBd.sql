@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3307
--- Время создания: Июн 14 2024 г., 00:14
+-- Время создания: Июн 19 2024 г., 19:00
 -- Версия сервера: 8.0.30
 -- Версия PHP: 7.2.34
 
@@ -40,8 +40,8 @@ CREATE TABLE `faves` (
 --
 
 INSERT INTO `faves` (`faves_id`, `user`, `recipe`) VALUES
-(38, 1, 2),
-(39, 1, 1);
+(45, 1, 2),
+(61, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -85,13 +85,24 @@ CREATE TABLE `recipes` (
 --
 
 INSERT INTO `recipes` (`rec_id`, `title`, `description`, `creactor_id`, `image`) VALUES
-(1, 'шаурма2', 'описание', 1, 'image_666a2fe49a416.webp'),
-(2, 'шаурма_100%vegan', 'описание', 1, 'Meatwrap.webp'),
+(1, 'шаурма', 'самый вкусный шаурма', 1, 'image_666a2fe49a416.webp'),
+(2, 'шаурма_100%vegans', 'описание', 1, 'Meatwrap.webp'),
 (3, 'хлеб', 'описание', 2, 'bread.webp'),
 (4, 'вареные овощи', 'описание', 2, 'Cooked_Vegetables.webp'),
 (5, 'Бутерброд', 'описание', 1, 'Dustwich.webp'),
 (6, 'Рис', 'описание', 2, 'Rice_Bowl.webp'),
 (7, 'Гохан', 'описание', 1, 'Gohan.webp');
+
+--
+-- Триггеры `recipes`
+--
+DELIMITER $$
+CREATE TRIGGER `recipes_BEFORE_DELETE` BEFORE DELETE ON `recipes` FOR EACH ROW BEGIN
+	DELETE FROM recipe_tags WHERE r_id = OLD.rec_id;
+	DELETE FROM recipe_Ingred WHERE r_id = OLD.rec_id;
+END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -110,8 +121,6 @@ CREATE TABLE `recipe_Ingred` (
 --
 
 INSERT INTO `recipe_Ingred` (`id`, `r_id`, `Ingred_id`) VALUES
-(2, 2, 2),
-(3, 2, 3),
 (7, 3, 4),
 (8, 4, 2),
 (9, 5, 1),
@@ -120,9 +129,7 @@ INSERT INTO `recipe_Ingred` (`id`, `r_id`, `Ingred_id`) VALUES
 (12, 6, 6),
 (13, 7, 6),
 (14, 7, 1),
-(15, 7, 2),
-(24, 1, 3),
-(25, 1, 1);
+(15, 7, 2);
 
 -- --------------------------------------------------------
 
@@ -141,17 +148,12 @@ CREATE TABLE `recipe_tags` (
 --
 
 INSERT INTO `recipe_tags` (`id`, `r_id`, `tag_id`) VALUES
-(2, 2, 1),
-(3, 2, 2),
 (5, 3, 2),
 (6, 4, 1),
 (7, 5, 3),
 (8, 5, 0),
 (9, 6, 1),
-(10, 7, 0),
-(13, 1, 2),
-(14, 1, 3),
-(15, 1, 0);
+(10, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -184,7 +186,7 @@ CREATE TABLE `users` (
   `user_id` int NOT NULL,
   `name` varchar(20) NOT NULL,
   `lastname` varchar(20) NOT NULL,
-  `password` varchar(9) NOT NULL,
+  `password` varchar(20) NOT NULL,
   `login` varchar(20) NOT NULL,
   `enable` int NOT NULL,
   `mail` varchar(100) NOT NULL,
@@ -196,8 +198,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `lastname`, `password`, `login`, `enable`, `mail`, `Admin`) VALUES
-(1, 'U', 'U', '1111', '1111', 1, 'uupikc@mail.com', 1),
-(2, 'upik2', 'upik2', '222', '222', 1, 'uupikc@mail.com', 0);
+(1, 'U', 'U', '1111', '1111', 1, 'uupikc@gmail.com', 1),
+(2, 'upik2', 'upik2', '222', '222', 0, 'uupikc@gmail.com', 0);
 
 --
 -- Индексы сохранённых таблиц
@@ -262,7 +264,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `faves`
 --
 ALTER TABLE `faves`
-  MODIFY `faves_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `faves_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT для таблицы `Ingredients`
@@ -274,19 +276,19 @@ ALTER TABLE `Ingredients`
 -- AUTO_INCREMENT для таблицы `recipes`
 --
 ALTER TABLE `recipes`
-  MODIFY `rec_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `rec_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT для таблицы `recipe_Ingred`
 --
 ALTER TABLE `recipe_Ingred`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT для таблицы `recipe_tags`
 --
 ALTER TABLE `recipe_tags`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT для таблицы `tags`

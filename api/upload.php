@@ -20,6 +20,22 @@ if($file = $_FILES['myFile']) {
     try {
 
 
+        move_uploaded_file($file['tmp_name'], $path.$fileName);
+
+        if ($res_id == null){//htlfrnbhjdfybt
+            $query = mysqli_query($link, "INSERT INTO recipes (title,description,creactor_id,image) VALUES ('$name','$descr','$userId','$fileName')");
+            
+            $res_id = (int)mysqli_fetch_array(mysqli_query($link, "SELECT rec_id from recipes where title = '$name' and description = '$descr' and creactor_id = '$userId' and image = '$fileName'"))['rec_id'];
+
+        }
+        else //редактирование
+        {
+            if ($fileExt != null)
+            $query = mysqli_query($link, "UPDATE recipes SET title = '$name' , description = '$descr' , image = '$fileName' WHERE rec_id = $res_id");
+            else
+            $query = mysqli_query($link, "UPDATE recipes SET title = '$name' , description = '$descr' WHERE rec_id = $res_id");
+        }
+
         mysqli_query($link, "DELETE FROM recipe_tags WHERE r_id = $res_id");
         mysqli_query($link, "DELETE FROM recipe_Ingred WHERE r_id = $res_id");
 
@@ -32,20 +48,7 @@ if($file = $_FILES['myFile']) {
             echo "$checkbox";
         }
 
-        move_uploaded_file($file['tmp_name'], $path.$fileName);
-
-        if ($res_id == null)//htlfrnbhjdfybt
-            $query = mysqli_query($link, "INSERT INTO recipes (title,description,creactor_id,image) VALUES ('$name','$descr','$userId','$fileName')");
-        else //редактирование
-        {
-            if ($fileExt != null)
-            $query = mysqli_query($link, "UPDATE recipes SET title = '$name' , description = '$descr' , image = '$fileName' WHERE rec_id = $res_id");
-            else
-            $query = mysqli_query($link, "UPDATE recipes SET title = '$name' , description = '$descr' WHERE rec_id = $res_id");
-        }
-
-
-        echo "<script>alert('Успешно');location.href='../mainPage.php'</script>";
+        echo "<script>alert('Успешно $res_id');location.href='../mainPage.php'</script>";
     
     }
     catch (Exception $e) {
