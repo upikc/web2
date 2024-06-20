@@ -47,14 +47,15 @@ $isAdmin =  mysqli_fetch_array(mysqli_query($link, "SELECT Admin from users wher
         <button type="submit">изменить данные</button>
     </form>
 
-    <form >
+    <p>
+    
         <button type="button" onclick="checkPasswordForDisable();" >Заблокировать аккаунт</button>
-    </form>
+    
 
 
 
     <!-- РЕЦЕПТЫ -->
-    <?php $recipes = mysqli_query($link, "SELECT rec_id , image , title , description, creactor_id , users.name as a_name , faves.user from recipes JOIN users on recipes.creactor_id = users.user_id JOIN faves on recipes.rec_id = faves.recipe where faves.user = '1'");
+    <?php $recipes = mysqli_query($link, "SELECT rec_id , image , title , description, creactor_id , users.name as a_name , faves.user from recipes JOIN users on recipes.creactor_id = users.user_id JOIN faves on recipes.rec_id = faves.recipe where faves.user = '$id'");
     foreach($recipes as $recipe): $thisRID = $recipe["rec_id"]; ?>
 
     <div style= "background-color: Thistle;">
@@ -91,7 +92,7 @@ $isAdmin =  mysqli_fetch_array(mysqli_query($link, "SELECT Admin from users wher
     <script>
         function checkPasswordForDisable() {
             let pass = prompt('введите пароль');
-            if (pass == <?=$UserThis["password"]?>)
+            if (pass == '<?=$UserThis["password"]?>')
                 location.href = "api/userDisable.php?id=<?=$id?>"
             else
             alert('пароли не совпали');
